@@ -1,0 +1,39 @@
+<html>
+<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+
+<head th:replace="fragments/template :: head('Affichage des films')"></head>
+
+<body>
+	<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+	<nav th:replace="fragments/template :: nav"></nav>
+
+	<!-- section pour afficher les messages de succès ou d'erreur -->
+	<section th:replace="fragments/template :: messages"></section>
+
+	<h1>Affichage des films</h1>
+
+	
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Titre</th>
+				<th>Date de sortie</th>
+				<th>Genre</th>
+				<th>Duree</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="film : ${listeFilms}">
+				<td th:text="${film.titre}"></td>
+				<td th:text="${film.dateSortie}"></td>
+				<td th:text="${film.genre.libelle}"></td>
+				<td th:text="${film.duree}"></td>
+				<td><a th:href="|filmDetail?id=${film.id}|">détail</a></td>
+			</tr>
+		</tbody>
+	</table>
+	
+</body>
+
+</html>

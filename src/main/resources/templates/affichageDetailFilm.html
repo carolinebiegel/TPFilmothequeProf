@@ -1,0 +1,54 @@
+<html>
+<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+
+<head th:replace="fragments/template :: head('Affichage détail film')"></head>
+
+<body>
+	<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+	<nav th:replace="fragments/template :: nav"></nav>
+
+	<!-- section pour afficher les messages de succès ou d'erreur -->
+	<section th:replace="fragments/template :: messages"></section>
+
+
+	<!-- page qui ajoute un avis pour un film donné (en route "prive car on ne veux le faire que si on est connecté) ") -->
+	<a th:href="|/prive/avis?filmId=${film.id}|">Ajouter un avis à ce film</a>
+
+	<h1 th:text="${film.titre}"></h1>
+
+	<h2>Durée</h2>
+	<span th:text="${film.duree}"></span>
+
+	<h2>Genre</h2>
+	<span th:text="${film.genre.libelle}"></span>
+
+	<h2>Synopsis</h2>
+	<span th:text="${film.synopsis}"></span>
+
+	<h2>Realisateur</h2>
+	<span th:text="|${film.realisateur.prenom} ${film.realisateur.nom}|"></span>
+
+	<h2>Liste des acteurs</h2>
+
+	<ul>
+		<li th:each="acteur : ${film.acteurs}">
+			<span th:text="|${acteur.prenom} ${acteur.nom}|"></span>
+		</li>
+	</ul>
+	
+	<h2>Liste des avis</h2>
+
+	<ul>
+		<li th:each="avis : ${film.avis}">
+			<span th:text="|${avis.membre.pseudo} a donné la note de ${avis.note}/5 avec le commentaire :|"></span>
+			<p class="commentaire" th:text="${avis.commentaire}"></p>
+		</li>
+	</ul>
+
+
+
+
+
+</body>
+
+</html>

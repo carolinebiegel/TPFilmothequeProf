@@ -1,0 +1,95 @@
+<html>
+<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+
+<head th:replace="fragments/template :: head('Ajout de film')"></head>
+
+<body>
+	<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+	<nav th:replace="fragments/template :: nav"></nav>
+
+	<!-- section pour afficher les messages de succès ou d'erreur -->
+	<section th:replace="fragments/template :: messages"></section>
+
+	<h1>Ajout Film</h1>
+
+	<!-- th:object="${film}" : mon formulaire va envoyer un objet "film" de type Participant (qui doit être pésent dans le modèle) rempli -->
+	<form th:action="@{/admin/ajoutFilm}" method="post" th:object="${film}">
+		<section class="form-element">
+			<label for="titre">Titre : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<input id="titre" type="text" th:field="*{titre}" />
+			<span class="error" th:errors="*{titre}"></span>
+		</section>
+
+		<section class="form-element">
+			<label for="dateSortie">Date de sortie : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<input id="dateSortie" type="date" th:field="*{dateSortie}" />
+			<span class="error" th:errors="*{dateSortie}"></span>
+		</section>
+
+		<section class="form-element">
+			<label for="duree">Duree : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<input id="duree" type="number" th:field="*{duree}" />
+			<span class="error" th:errors="*{duree}"></span>
+		</section>
+		
+		<section class="form-element">
+			<label for="synopsis">Synopsis : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<textarea id="synopsis" th:field="*{synopsis}" cols="30" rows="10"></textarea>
+			<span class="error" th:errors="*{synopsis}"></span>
+		</section>
+		
+		 <!--  Genre -->
+		<section class="form-element">
+			<label for="genre">Genre : </label>			
+			<select id="genre" th:field="*{genre}">
+			
+			<!-- je génère ma liste des genres à partir de mon modèle -->
+			<option th:each="genre : ${listeGenres}" th:text="${genre.libelle}" th:value="${genre.id}"></option>
+			</select>
+			<span class="error" th:errors="*{genre}"></span>
+		</section>
+		
+		<!--  Realisateur -->
+		<section class="form-element">
+			<label for="realisateur">Realisateur : </label>			
+			<select id="realisateur" th:field="*{realisateur}">
+			
+			<!-- je génère ma liste des realisateurs à partir de mon modèle -->
+			<!-- je mets un th:if pour n'afficher que les realisateurs -->
+			<option 
+			th:if="${participant.realisateur}"
+			th:each="participant : ${listeParticipants}"
+			th:text="|${participant.prenom} ${participant.nom}|"
+			th:value="${participant.id}"></option>
+			</select>
+			</select>
+			<span class="error" th:errors="*{realisateur}"></span>
+		</section>
+		
+		<!--  Liste des Acteurs -->
+		<section class="form-element">
+			<label for="acteurs">Acteur : </label>			
+			 <!-- On peut selectionner plusieurs acteurs => select multiple -->
+			<select id="acteurs" th:field="*{acteurs}" multiple>
+			
+			<!-- je génère ma liste des acteurs à partir de mon modèle -->
+			<!-- je mets un th:if pour n'afficher que les acteurs -->
+			<option 
+			th:if="${participant.acteur}"
+			th:each="participant : ${listeParticipants}"
+			th:text="|${participant.prenom} ${participant.nom}|"
+			th:value="${participant.id}"></option>
+			</select>
+			<span class="error" th:errors="*{acteurs}"></span>
+		</section>
+
+		<button>Validation</button>
+	</form>
+	
+</body>
+
+</html>

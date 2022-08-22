@@ -1,0 +1,61 @@
+<html>
+<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+
+<head th:replace="fragments/template :: head('Gestion des membres')"></head>
+
+<body>
+	<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+	<nav th:replace="fragments/template :: nav"></nav>
+
+	<!-- section pour afficher les messages de succès ou d'erreur -->
+	<section th:replace="fragments/template :: messages"></section>
+
+	<h1>Gestion des membres</h1>
+
+	<!-- th:object="${membre}" : mon formulaire va envoyer un objet "membre" de type Membre (qui doit être pésent dans le modèle) rempli -->
+	<form th:action="@{/admin/membres}" method="post" th:object="${membre}">
+		<section class="form-element">
+			<label for="pseudo">Pseudo : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<input id="pseudo" type="text" th:field="*{pseudo}" />
+			<span class="error" th:errors="*{pseudo}"></span>
+		</section>
+
+		<section class="form-element">
+			<label for="password">Mot de passe : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<input id="password" type="password" th:field="*{password}" />
+			<span class="error" th:errors="*{password}"></span>
+		</section>
+
+		<section class="form-element">
+			<label for="admin">Admin : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<input id="admin" type="checkbox" th:field="*{admin}" />
+			<span class="error" th:errors="*{admin}"></span>
+		</section>
+
+		<button>Validation</button>
+	</form>
+
+	<h2>Liste des membres</h2>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Pseudo</th>
+				<th>Password</th>
+				<th>Admin</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="membre : ${listeMembre}">
+				<td th:text="${membre.pseudo}"></td>
+				<td th:text="${membre.password}"></td>
+				<td class="checkbox" th:text="${membre.admin ? '✓' : ''}"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+
+</html>

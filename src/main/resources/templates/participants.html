@@ -1,0 +1,70 @@
+<html>
+<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+
+<head th:replace="fragments/template :: head('Gestion des participants')"></head>
+
+<body>
+	<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+	<nav th:replace="fragments/template :: nav"></nav>
+
+	<!-- section pour afficher les messages de succès ou d'erreur -->
+	<section th:replace="fragments/template :: messages"></section>
+
+	<h1>Gestion des participants</h1>
+
+	<!-- th:object="${participant}" : mon formulaire va envoyer un objet "participant" de type Participant (qui doit être pésent dans le modèle) rempli -->
+	<form th:action="@{/admin/participants}" method="post" th:object="${participant}">
+		<section class="form-element">
+			<label for="prenom">Prenom : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<input id="prenom" type="text" th:field="*{prenom}" />
+			<span class="error" th:errors="*{prenom}"></span>
+		</section>
+
+		<section class="form-element">
+			<label for="nom">Nom : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<input id="nom" type="text" th:field="*{nom}" />
+			<span class="error" th:errors="*{nom}"></span>
+		</section>
+
+		<section class="form-element">
+			<label for="nom">Acteur : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<input id="nom" type="checkbox" th:field="*{acteur}" />
+			<span class="error" th:errors="*{acteur}"></span>
+		</section>
+		
+		<section class="form-element">
+			<label for="nom">Realisateur : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<input id="nom" type="checkbox" th:field="*{realisateur}" />
+			<span class="error" th:errors="*{realisateur}"></span>
+		</section>
+
+		<button>Validation</button>
+	</form>
+
+	<h2>Liste des participants</h2>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Prenom</th>
+				<th>Nom</th>
+				<th>Acteur</th>
+				<th>Realisateur</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="participant : ${listeParticipant}">
+				<td th:text="${participant.prenom}"></td>
+				<td th:text="${participant.nom}"></td>
+				<td class="checkbox" th:text="${participant.acteur ? '✓' : ''}"></td>
+				<td class="checkbox" th:text="${participant.realisateur ? '✓' : ''}"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+
+</html>

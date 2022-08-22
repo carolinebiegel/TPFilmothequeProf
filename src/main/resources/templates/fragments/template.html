@@ -1,0 +1,44 @@
+<html>
+
+<head th:fragment="head(title)">
+	<title th:text="${title}"></title>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+	<nav th:fragment="nav">
+		<ul>
+		<li><a href="/">Liste des Films</a></li>
+		<li sec:authorize="hasRole('admin')"><a href="/admin/ajoutFilm">Creer Film</a></li>
+		<li sec:authorize="hasRole('admin')"><a href="/admin/participants">Gestion Participants</a></li>
+		<li sec:authorize="hasRole('admin')"><a href="/admin/genres">Gestion Genres</a></li>
+		<li sec:authorize="hasRole('admin')"><a href="/admin/membres">Gestion Membres</a></li>
+		</ul>
+		
+		<!-- Section avec les liens de COnnexion/Deconnexion en fonction du statut -->
+		
+		<!-- on n'affiche cette section que pour les utilisateurs connectés -->
+		<section sec:authorize="isAuthenticated()">
+			<!-- ${#authentication.name}" : recupère le username de l'utilisateur connecté-->
+			<span th:text="|Vous êtes connecté avec l'utilisateur : ${#authentication.name}|"></span>
+			<!-- on offre la possibilité de se déconnecter -->
+			<form th:action="@{/logout}" method="post">
+				<button>Se deconnecter</button>
+			</form>
+		</section>
+		<!-- on n'affiche cette section que pour les utilisateurs NON connectés -->
+		<section sec:authorize="!isAuthenticated()">
+			<span>Vous n'êtes pas connecté :</span>
+			<!-- on offre la possibilité de se connecter -->
+			<a th:href="@{/login}">Se connecter</a>
+		</section>
+	</nav>
+	
+	<section th:fragment="messages">
+		<p class="confirmation" th:text="${confirmation}"></p>
+		<p class="error" th:text="${erreur}"></p>
+	</section>
+</body>
+
+</html>

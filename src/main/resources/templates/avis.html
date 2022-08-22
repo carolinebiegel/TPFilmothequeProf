@@ -1,0 +1,50 @@
+<html
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+<head th:replace="fragments/template :: head('Ajout avis')"></head>
+
+<body>
+	<!-- je vais remplacer le contenu de ma balise avec celui de la balise head de mon template : fragments/template.html -->
+	<nav th:replace="fragments/template :: nav"></nav>
+	
+	<!-- section pour afficher les messages de succès ou d'erreur -->
+	<section th:replace="fragments/template :: messages"></section>
+	
+	<h1>Ajout d'un avis pour : <span th:text="${film.titre}"></span></h1>
+	
+	<!-- th:object="${avis}" : mon formulaire va envoyer un objet "avis" de type Avis (qui doit être pésent dans le modèle) rempli -->
+	<!-- Pas besoin de champs de formulaire pour Membre et Film car on peut retrouver ces informations dans le controller-->	
+	
+	<!-- ne pas oublier d'ajouter ?filmId=... à l'url du POST (car on veut récupérer l'id du film dans le POST également) -->
+	<form th:action="@{|/prive/avis?filmId=${film.id}|}" method="post" th:object="${avis}">
+		
+		<!-- Note -->
+		<section class="form-element">
+			<label for="note">Note (/5) : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<input id="note" type="number" th:field="*{note}" />
+			<span class="error" th:errors="*{note}"></span>
+		</section>
+		
+		<!-- Commentaire -->
+		<section class="form-element">
+			<label for="commentaire">Commentaire : </label>
+			<!-- à la place de name j'utilise th:field -->
+			<textarea id="commentaire" th:field="*{commentaire}" cols="30" rows="10"></textarea>
+			<span class="error" th:errors="*{commentaire}"></span>
+		</section>
+		
+		<button>Validation</button>
+	</form>
+	
+	<h2>Liste des avis</h2>
+	
+	<ul>
+		<li th:each="avis : ${listeAvis}">
+			<span th:text="|id : ${avis.id}, libelle: ${avis.libelle}|"></span>
+		</li>
+	</ul>
+</body>
+
+</html>
